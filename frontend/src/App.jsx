@@ -5,7 +5,7 @@ import DashboardPage from './pages/DashboardPage.jsx';
 export default function App() {
   return (
     <AuthProvider>
-      <ProtectedRoute allowedRoles={['ADMIN', 'OPERATOR', 'VIEWER']}>
+      <ProtectedRoute>
         <DashboardPage />
       </ProtectedRoute>
     </AuthProvider>

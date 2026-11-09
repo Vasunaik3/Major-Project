@@ -7,3 +7,5 @@ dist/
 coverage/
 backend/uploads/
 .DS_Store
+
+.vscode/

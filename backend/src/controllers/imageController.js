@@ -2,9 +2,9 @@ import { unlink, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import OnionImage from '../models/OnionImage.js';
 import { matchesImageSignature, uploadDirectory } from '../middleware/imageUpload.js';
+import { predictionPlaceholderMessage } from '../services/predictionService.js';
 
-export const MODEL_UNAVAILABLE_MESSAGE =
-  'AI analysis is unavailable because the model has not yet been trained.';
+export const MODEL_UNAVAILABLE_MESSAGE = predictionPlaceholderMessage;
 
 function statusMessage(status) {
   if (status === 'COMPLETED') return 'Image analysis completed.';

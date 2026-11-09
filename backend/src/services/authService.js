@@ -10,9 +10,8 @@ export function createAccessToken(user) {
 
 export function publicUser(user) {
   return {
-    id: user.id,
-    name: user.name,
+    id:    user.id,
+    name:  user.name,
     email: user.email,
-    role: user.role === 'USER' ? 'OPERATOR' : user.role,
   };
 }

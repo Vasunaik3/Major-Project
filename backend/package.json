@@ -9,8 +9,8 @@
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
-    "seed:admin": "node src/scripts/seedAdmin.js",
-    "test": "node --test test/alertService.test.js test/imageUpload.test.js test/reportService.test.js test/systemSettings.test.js"
+    "test": "node --test test/alertService.test.js test/imageUpload.test.js test/reportService.test.js test/systemSettings.test.js",
+    "test:integration": "node -r dotenv/config test/auth.integration.js && node -r dotenv/config test/alertLifecycle.integration.js && node -r dotenv/config test/imageApi.integration.js && node -r dotenv/config test/reportApi.integration.js && node -r dotenv/config test/simulator.integration.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

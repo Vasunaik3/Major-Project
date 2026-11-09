@@ -9,12 +9,11 @@ export async function requireAuth(request, response, next) {
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(payload.sub).select('_id name email role tokenVersion');
+    const user = await User.findById(payload.sub).select('_id name email tokenVersion');
     if (!user) return response.status(401).json({ error: 'Invalid authentication token.' });
     if (payload.tokenVersion !== user.tokenVersion) {
       return response.status(401).json({ error: 'This session has been signed out. Please log in again.' });
     }
-    if (user.role === 'USER') user.role = 'OPERATOR';
     request.user = user;
     next();
   } catch {

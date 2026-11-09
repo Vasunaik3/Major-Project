@@ -1,7 +1,7 @@
 import Prediction from '../models/Prediction.js';
 
 export const predictionPlaceholderMessage =
-  'AI analysis module will be integrated after dataset collection and model training.';
+  'AI analysis will be enabled after dataset collection and model training.';
 
 export async function listPredictions(limit = 50) {
   return Prediction.find()

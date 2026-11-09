@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import User from './models/User.js';
 import { connectDatabase } from './config/database.js';
 import { startAlertMonitor } from './services/alertService.js';
 import { loadStorageThresholds } from './services/storageConditionService.js';
@@ -14,7 +13,6 @@ async function startServer() {
   }
 
   await connectDatabase();
-  await User.updateMany({ role: 'USER' }, { $set: { role: 'OPERATOR' } });
   await loadStorageThresholds();
   const { default: app } = await import('./app.js');
   const port = Number(process.env.PORT) || 5000;

@@ -23,7 +23,7 @@ export async function listAlerts(request, response) {
 export async function resolveAlert(request, response) {
   const alert = await Alert.findByIdAndUpdate(
     request.params.id,
-    { resolved: true, resolvedAt: new Date(), resolutionReason: 'Resolved by operator.' },
+    { resolved: true, resolvedAt: new Date(), resolutionReason: 'Resolved by user.' },
     { new: true, runValidators: true },
   );
   if (!alert) return response.status(404).json({ error: 'Alert not found.' });

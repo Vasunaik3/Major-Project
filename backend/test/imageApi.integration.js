@@ -21,7 +21,7 @@ async function run() {
   let savedFile;
 
   try {
-    user = await User.create({ name: 'Image API Test', email, passwordHash: 'test-hash', role: 'OPERATOR' });
+    user = await User.create({ name: 'Image API Test', email, passwordHash: 'test-hash' });
     const token = jwt.sign({ sub: user.id, tokenVersion: user.tokenVersion ?? 0 }, secret, { expiresIn: '5m' });
     server = app.listen(0);
     await new Promise((resolve) => server.once('listening', resolve));
@@ -40,7 +40,7 @@ async function run() {
     assert.equal(uploadPayload.image.predictedClass, null);
     assert.equal(uploadPayload.image.confidence, null);
     assert.equal(uploadPayload.image.modelVersion, null);
-    assert.match(uploadPayload.message, /model has not yet been trained/i);
+    assert.equal(uploadPayload.message, 'AI analysis will be enabled after dataset collection and model training.');
 
     const uploadedFileUrl = new URL(uploadPayload.image.imageUrl, origin);
     assert.equal((await fetch(uploadedFileUrl)).status, 401, 'uploaded image files require authentication');
@@ -58,6 +58,14 @@ async function run() {
     const detailPayload = await detailResponse.json();
     assert.equal(detailResponse.status, 200);
     assert.equal(detailPayload.image._id, imageId);
+    assert.equal(detailPayload.message, 'AI analysis will be enabled after dataset collection and model training.');
+
+    const predictionResponse = await fetch(`${origin}/api/predictions`, { headers: authHeaders });
+    const predictionPayload = await predictionResponse.json();
+    assert.equal(predictionResponse.status, 200);
+    assert.equal(predictionPayload.analysisAvailable, false);
+    assert.equal(predictionPayload.message, 'AI analysis will be enabled after dataset collection and model training.');
+    assert.ok(!predictionPayload.predictions.some((prediction) => prediction.imageId?._id === imageId));
 
     const invalidForm = new FormData();
     invalidForm.append('image', new Blob(['not a png'], { type: 'image/png' }), 'invalid.png');

@@ -1,7 +1,6 @@
 import cors from 'cors';
 import express from 'express';
 import alertRoutes from './routes/alertRoutes.js';
-import adminRoutes from './routes/adminRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import fanRoutes from './routes/fanRoutes.js';
@@ -27,7 +26,6 @@ app.get('/api/health', (_request, response) => {
   response.json({ status: 'ok', mode: 'software-prototype' });
 });
 app.use('/api/auth', authRoutes);
-app.use('/api/admin', adminRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/sensors', sensorRoutes);
 app.use('/api/simulator', simulatorRoutes);

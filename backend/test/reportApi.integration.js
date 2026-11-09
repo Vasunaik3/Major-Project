@@ -25,7 +25,7 @@ async function run() {
   let server;
 
   try {
-    user = await User.create({ name: 'Report Test', email, passwordHash: 'test-hash', role: 'VIEWER' });
+    user = await User.create({ name: 'Report Test', email, passwordHash: 'test-hash' });
     await SensorReading.create([
       { deviceId: tokenSuffix, temperature: 23, humidity: 60, gasLevel: 100, timestamp: from },
       { deviceId: tokenSuffix, temperature: 31, humidity: 80, gasLevel: 400, timestamp: middle },

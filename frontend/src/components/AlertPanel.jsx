@@ -11,29 +11,75 @@ function timeAgo(value) {
 
 function severityKey(severity) {
   if (severity === 'WARNING') return 'medium';
-  if (severity === 'INFO') return 'low';
-  return severity?.toLowerCase() || 'low';
+  if (severity === 'INFO') return 'info';
+  return severity?.toLowerCase() || 'info';
+}
+
+function severityIcon(severity) {
+  if (severity === 'CRITICAL' || severity === 'HIGH') return 'warning';
+  if (severity === 'INFO') return 'info';
+  return 'alerts';
 }
 
 export default function AlertPanel({ alerts, onResolve, resolvingId, canResolve = false }) {
   return (
     <article className="panel alert-panel" id="alerts">
       <div className="panel-heading">
-        <div><h2>Recent alerts</h2><p>Storage events that need attention</p></div>
+        <div>
+          <h2>Recent alerts</h2>
+          <p>Storage events that need attention</p>
+        </div>
         <span className="panel-count">{alerts.length} recent</span>
       </div>
+
       {alerts.length === 0 ? (
-        <div className="empty-state"><div className="empty-state-icon"><Icon name="check" size={19} /></div><strong>All clear</strong><span>No recent alerts from the simulator.</span></div>
+        <div className="empty-state">
+          <div className="empty-state-icon">
+            <Icon name="check" size={18} />
+          </div>
+          <strong>All clear</strong>
+          <span>No recent alerts from the simulator.</span>
+        </div>
       ) : (
         <div className="alert-list">
-          {alerts.map((alert) => (
-            <div className="alert-row" key={alert._id}>
-              <div className={`alert-severity alert-severity--${severityKey(alert.severity)}`}><Icon name="alerts" size={16} /></div>
-              <div className="alert-copy"><div className="alert-title-row"><strong>{(alert.type || 'SYSTEM').replaceAll('_', ' ')}</strong><span className={`severity-label severity-label--${severityKey(alert.severity)}`}>{alert.severity}</span></div><p>{alert.message}</p><small>{alert.deviceId ? `${alert.deviceId} · ` : ''}{timeAgo(alert.timestamp)}</small></div>
-              {!alert.resolved && canResolve && <button type="button" className="resolve-button" disabled={resolvingId === alert._id} onClick={() => onResolve(alert._id)}>{resolvingId === alert._id ? '…' : 'Resolve'}</button>}
-              {alert.resolved && <span className="resolved-label">Resolved</span>}
-            </div>
-          ))}
+          {alerts.map((alert) => {
+            const key = severityKey(alert.severity);
+            return (
+              <div className="alert-row" key={alert._id}>
+                <div className={`alert-severity alert-severity--${key}`}>
+                  <Icon name={severityIcon(alert.severity)} size={16} />
+                </div>
+
+                <div className="alert-copy">
+                  <div className="alert-title-row">
+                    <strong>{(alert.type || 'SYSTEM').replaceAll('_', ' ')}</strong>
+                    <span className={`severity-label severity-label--${key}`}>
+                      {alert.severity}
+                    </span>
+                  </div>
+                  <p>{alert.message}</p>
+                  <small>
+                    {alert.deviceId ? `${alert.deviceId} · ` : ''}
+                    {timeAgo(alert.timestamp)}
+                  </small>
+                </div>
+
+                {!alert.resolved && canResolve && (
+                  <button
+                    type="button"
+                    className="resolve-button"
+                    disabled={resolvingId === alert._id}
+                    onClick={() => onResolve(alert._id)}
+                  >
+                    {resolvingId === alert._id ? '…' : 'Resolve'}
+                  </button>
+                )}
+                {alert.resolved && (
+                  <span className="resolved-label">✓ Resolved</span>
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
     </article>

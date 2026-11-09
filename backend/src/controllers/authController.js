@@ -5,8 +5,11 @@ import { createAccessToken, publicUser } from '../services/authService.js';
 export async function register(request, response) {
   const { name, email, password } = request.body;
   const passwordHash = await bcrypt.hash(password, 12);
-  // Public registration cannot grant elevated privileges, even if a role is included in the request.
-  const user = await User.create({ name: name.trim(), email: email.trim().toLowerCase(), passwordHash, role: 'VIEWER' });
+  const user = await User.create({
+    name:  name.trim(),
+    email: email.trim().toLowerCase(),
+    passwordHash,
+  });
   response.status(201).json({ user: publicUser(user), token: createAccessToken(user) });
 }
 
@@ -52,4 +55,3 @@ export function validateLogin(body) {
   }
   return errors;
 }
-

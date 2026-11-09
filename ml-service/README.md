@@ -6,7 +6,7 @@ No model, image processing, or inference code is implemented. Integration is def
 
 - Input: an image upload or an image reference, plus an optional request ID.
 - Output: `status`, `prediction`, `confidence`, optional `features`, `modelVersion`, and `createdAt`.
-- Until a model is available, the Node.js API should return a clearly marked `not_implemented` status and the message: “AI analysis module will be integrated after dataset collection and model training.”
+- Until a model is available, the Node.js API should return a clearly marked unavailable status and the message: “AI analysis will be enabled after dataset collection and model training.”
 
 ## Intended pipeline
 

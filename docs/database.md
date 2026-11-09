@@ -11,10 +11,9 @@ Example document:
 ```json
 {
   "_id": "USER_OBJECT_ID",
-  "name": "Storage Operator",
-  "email": "operator@example.com",
+  "name": "Storage User",
+  "email": "user@example.com",
   "passwordHash": "<bcrypt-hash>",
-  "role": "USER",
   "createdAt": "2026-10-03T10:00:00.000Z",
   "updatedAt": "2026-10-03T10:00:00.000Z"
 }
@@ -62,7 +61,7 @@ Example document:
 }
 ```
 
-Alert severity is `LOW`, `MEDIUM`, `HIGH`, or `CRITICAL`. Alerts are deduplicated per device and type while unresolved; event changes close the prior event with a resolution reason before opening the new severity/change event. Recovery and operator resolution both record `resolvedAt` and `resolutionReason`. Indexes: `{ resolved: 1, timestamp: -1 }`, `{ severity: 1, timestamp: -1 }`, plus a partial unique index preventing duplicate open alerts for a device/type.
+Alert severity is `LOW`, `MEDIUM`, `HIGH`, or `CRITICAL`. Alerts are deduplicated per device and type while unresolved; event changes close the prior event with a resolution reason before opening the new severity/change event. Recovery and user resolution both record `resolvedAt` and `resolutionReason`. Indexes: `{ resolved: 1, timestamp: -1 }`, `{ severity: 1, timestamp: -1 }`, plus a partial unique index preventing duplicate open alerts for a device/type.
 
 ## FanActivity — `fanactivities`
 
